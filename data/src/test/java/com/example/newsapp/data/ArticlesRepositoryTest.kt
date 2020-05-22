@@ -1,5 +1,6 @@
 package com.example.newsapp.data
 
+import com.example.newsapp.domain.Source
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.then
@@ -7,11 +8,13 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import java.util.*
 
 class ArticlesRepositoryTest {
 
@@ -31,17 +34,55 @@ class ArticlesRepositoryTest {
     fun tearDown() = RxJavaPlugins.setIoSchedulerHandler { null }
 
     @Test
-    fun `should get articles for keyword`() {
+    fun `should get articles for keyword and map them to domain class`() {
         val keyword = "keyword"
-        val response: ArticlesResponse = mock()
+        val status = "ok"
+        val totalResults = 11
+        val name = "name"
+        val source = SourceResponse(name)
+        val author = "author"
+        val title = "title"
+        val description = "description"
+        val url = "url"
+        val urlToImage = "urlToImage"
+        val publishedAt = mock<Date>()
+        val content = "content"
+        val article = ArticleResponse(
+            source = source,
+            author = author,
+            title = title,
+            description = description,
+            url = url,
+            urlToImage = urlToImage,
+            publishedAt = publishedAt,
+            content = content
+        )
+        val response = ArticlesResponse(
+            status = status,
+            totalResults = totalResults,
+            articles = listOf(article)
+        )
 
         given(dataSource.getArticles(keyword)).willReturn(Single.just(response))
 
-        tested.getArticles(keyword)
-            .test()
-            .assertValue(response)
+        val testObserver = tested.getArticles(keyword).test()
+        testObserver
             .assertNoErrors()
             .assertComplete()
+
+        val articles = testObserver.values().first()
+        assertEquals(status, articles.status)
+        assertEquals(totalResults, articles.totalResults)
+        val resultArticle = articles.articles.first()
+        assertEquals(Source(name), resultArticle.source)
+        assertEquals(author, resultArticle.author)
+        assertEquals(title, resultArticle.title)
+        assertEquals(description, resultArticle.description)
+        assertEquals(url, resultArticle.url)
+        assertEquals(urlToImage, resultArticle.urlToImage)
+        assertEquals(publishedAt, resultArticle.publishedAt)
+        assertEquals(content, resultArticle.content)
+
         then(dataSource).should().getArticles(keyword)
     }
 
