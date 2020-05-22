@@ -1,8 +1,11 @@
 package com.example.newsapp
 
 import android.app.Application
+import com.example.newsapp.data.ArticlesRepository
 import com.example.newsapp.data.IArticlesDataSource
 import com.example.newsapp.framework.IArticlesRetrofitDataSource
+import com.example.newsapp.news.NewsViewModel
+import com.example.newsapp.usecase.GetArticlesUseCase
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,6 +38,9 @@ class MyApplication : Application() {
                 .build()
                 .create(IArticlesRetrofitDataSource::class.java)
         }
+        single { ArticlesRepository(get()) }
+        factory { GetArticlesUseCase(get()) }
+        factory { NewsViewModel(get()) }
     }
 
     override fun onCreate() {
