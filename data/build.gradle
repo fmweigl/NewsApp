@@ -3,7 +3,9 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0' // TODO define versions in 1 file
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 sourceCompatibility = "7"
