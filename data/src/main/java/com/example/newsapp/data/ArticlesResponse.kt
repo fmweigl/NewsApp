@@ -16,7 +16,7 @@ data class ArticleResponse(
     @SerializedName("source")
     val source: SourceResponse,
     @SerializedName("author")
-    val author: String,
+    val author: String?,
     @SerializedName("title")
     val title: String,
     @SerializedName("description")
@@ -24,11 +24,11 @@ data class ArticleResponse(
     @SerializedName("url")
     val url: String,
     @SerializedName("urlToImage")
-    val urlToImage: String,
+    val urlToImage: String?,
     @SerializedName("publishedAt")
     val publishedAt: Date,
     @SerializedName("content")
-    val content: String
+    val content: String?
 )
 
 data class SourceResponse(

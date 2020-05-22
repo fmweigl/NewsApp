@@ -10,13 +10,13 @@ data class Articles(
 
 data class Article(
     val source: Source,
-    val author: String,
+    val author: String?,
     val title: String,
     val description: String,
     val url: String,
-    val urlToImage: String,
+    val urlToImage: String?,
     val publishedAt: Date,
-    val content: String
+    val content: String?
 )
 
 data class Source(

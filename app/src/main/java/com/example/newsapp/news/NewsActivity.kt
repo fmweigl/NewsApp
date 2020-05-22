@@ -3,6 +3,7 @@ package com.example.newsapp.news
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityNewsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,6 +18,8 @@ class NewsActivity : AppCompatActivity() {
             .also {
                 it.lifecycleOwner = this
                 it.viewModel = viewModel
+                it.rvArticles.adapter = ArticlesAdapter()
+                it.rvArticles.layoutManager = LinearLayoutManager(this)
             }
     }
 }
