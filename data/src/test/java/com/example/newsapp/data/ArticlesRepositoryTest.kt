@@ -75,6 +75,8 @@ class ArticlesRepositoryTest {
         val articles = testObserver.values().first()
         assertEquals(status, articles.status)
         assertEquals(totalResults, articles.totalResults)
+        assertEquals(keyword, articles.keyword)
+        assertEquals(page, articles.page)
         val resultArticle = articles.articles.first()
         assertEquals(Source(name), resultArticle.source)
         assertEquals(author, resultArticle.author)
