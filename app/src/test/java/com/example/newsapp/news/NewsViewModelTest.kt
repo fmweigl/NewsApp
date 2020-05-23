@@ -210,20 +210,4 @@ class NewsViewModelTest {
 
         then(navigator).should().showArticle(url)
     }
-
-    @Test
-    fun `should return view type 'big' for every 7th article and view type 'small' for all others`() {
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_BIG, tested.viewTypeForPosition(0))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_BIG, tested.viewTypeForPosition(7))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_BIG, tested.viewTypeForPosition(14))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_BIG, tested.viewTypeForPosition(21))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(1))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(2))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(3))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(4))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(5))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(6))
-        assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(8))
-    }
-
 }

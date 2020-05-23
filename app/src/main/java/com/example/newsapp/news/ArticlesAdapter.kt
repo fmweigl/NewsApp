@@ -11,7 +11,6 @@ import com.example.newsapp.databinding.ItemArticleSmallBinding
 import com.example.newsapp.domain.Article
 
 class ArticlesAdapter(
-    private val viewTypeLookup: IArticleViewTypeLookup,
     private val articleClickListener: IArticleClickListener
 ) :
     ListAdapter<Article, AbsArticleViewHolder>(DIFFUTIL_CALLBACK) {
@@ -46,7 +45,8 @@ class ArticlesAdapter(
         holder.bindArticle(getItem(position))
     }
 
-    override fun getItemViewType(position: Int): Int = viewTypeLookup.viewTypeForPosition(position)
+    override fun getItemViewType(position: Int): Int =
+        if (position % BIG_ARTICLE_INTERVAL == 0) VIEW_TYPE_BIG else VIEW_TYPE_SMALL
 
     companion object {
 
@@ -61,8 +61,9 @@ class ArticlesAdapter(
 
         }
 
-        private const val VIEW_TYPE_SMALL = 0
-        private const val VIEW_TYPE_BIG = 1
+        const val VIEW_TYPE_SMALL = 0
+        const val VIEW_TYPE_BIG = 1
+        private const val BIG_ARTICLE_INTERVAL = 7
 
     }
 

@@ -28,14 +28,15 @@ class NewsActivity : AppCompatActivity(), INewsNavigator {
             .also {
                 it.lifecycleOwner = this
                 it.viewModel = viewModel
-                it.rvArticles.adapter = ArticlesAdapter(viewModel, viewModel)
+                val adapter = ArticlesAdapter(viewModel)
+                it.rvArticles.adapter = adapter
                 it.rvArticles.layoutManager =
                     GridLayoutManager(this, spanCount).apply {
                         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                             override fun getSpanSize(position: Int): Int {
-                                return when (viewModel.viewTypeForPosition(position)) {
-                                    IArticleViewTypeLookup.VIEWTYPE_BIG -> spanCount
-                                    IArticleViewTypeLookup.VIEWTYPE_SMALL -> 1
+                                return when (adapter.getItemViewType(position)) {
+                                    ArticlesAdapter.VIEW_TYPE_BIG -> spanCount
+                                    ArticlesAdapter.VIEW_TYPE_SMALL -> 1
                                     else -> 0
                                 }
                             }

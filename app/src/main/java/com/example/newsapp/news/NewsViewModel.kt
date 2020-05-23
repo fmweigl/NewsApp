@@ -9,7 +9,7 @@ import com.example.newsapp.usecase.GetArticlesUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewModel(),
-    IArticleViewTypeLookup, IArticleClickListener {
+    IArticleClickListener {
 
     private val _articles = MutableLiveData<Articles>()
     val articles: LiveData<Articles> = _articles
@@ -72,14 +72,10 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
         }
     }
 
-    override fun viewTypeForPosition(position: Int): Int =
-        if (position % BIG_ARTICLE_INTERVAL == 0) IArticleViewTypeLookup.VIEWTYPE_BIG else IArticleViewTypeLookup.VIEWTYPE_SMALL
-
     companion object {
         const val PAGE_SIZE = 21
         const val FIRST_PAGE = 1
         const val LOAD_MORE_THRESHOLD = 4
-        const val BIG_ARTICLE_INTERVAL = 7
     }
 
 }
