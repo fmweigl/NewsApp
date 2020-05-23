@@ -5,7 +5,9 @@ import java.util.*
 data class Articles(
     val status: String,
     val totalResults: Int,
-    val articles: List<Article>
+    val articles: List<Article>,
+    val keyword: String,
+    val page: Int
 )
 
 data class Article(

@@ -1,7 +1,6 @@
 package com.example.newsapp.usecase
 
 import com.example.newsapp.data.ArticlesRepository
-import com.example.newsapp.data.ArticlesResponse
 import com.example.newsapp.domain.Articles
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
@@ -27,16 +26,18 @@ class GetArticlesUseCaseTest {
     @Test
     fun `should get articles for keyword`() {
         val keyword = "keyword"
+        val page = 1
+        val pageSize = 2
         val articles: Articles = mock()
 
-        given(repository.getArticles(keyword)).willReturn(Single.just(articles))
+        given(repository.getArticles(keyword, page, pageSize)).willReturn(Single.just(articles))
 
-        tested.getArticles(keyword)
+        tested.loadArticlesForKeyword(keyword, page, pageSize)
             .test()
             .assertValue(articles)
             .assertNoErrors()
             .assertComplete()
-        then(repository).should().getArticles(keyword)
+        then(repository).should().getArticles(keyword, page, pageSize)
     }
 
 }

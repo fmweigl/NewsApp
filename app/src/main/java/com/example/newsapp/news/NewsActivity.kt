@@ -3,6 +3,7 @@ package com.example.newsapp.news
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityNewsBinding
@@ -19,7 +20,7 @@ class NewsActivity : AppCompatActivity() {
                 it.lifecycleOwner = this
                 it.viewModel = viewModel
                 it.rvArticles.adapter = ArticlesAdapter()
-                it.rvArticles.layoutManager = LinearLayoutManager(this)
+                it.rvArticles.layoutManager = GridLayoutManager(this, 1)
             }
     }
 }

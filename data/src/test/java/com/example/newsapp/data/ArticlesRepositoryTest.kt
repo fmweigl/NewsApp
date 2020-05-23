@@ -35,9 +35,11 @@ class ArticlesRepositoryTest {
 
     @Test
     fun `should get articles for keyword and map them to domain class`() {
+        val page = 1
+        val pageSize = 11
         val keyword = "keyword"
         val status = "ok"
-        val totalResults = 11
+        val totalResults = 22
         val name = "name"
         val source = SourceResponse(name)
         val author = "author"
@@ -63,9 +65,9 @@ class ArticlesRepositoryTest {
             articles = listOf(article)
         )
 
-        given(dataSource.getArticles(keyword)).willReturn(Single.just(response))
+        given(dataSource.getArticles(keyword, page, pageSize)).willReturn(Single.just(response))
 
-        val testObserver = tested.getArticles(keyword).test()
+        val testObserver = tested.getArticles(keyword, page, pageSize).test()
         testObserver
             .assertNoErrors()
             .assertComplete()
@@ -83,7 +85,7 @@ class ArticlesRepositoryTest {
         assertEquals(publishedAt, resultArticle.publishedAt)
         assertEquals(content, resultArticle.content)
 
-        then(dataSource).should().getArticles(keyword)
+        then(dataSource).should().getArticles(keyword, page, pageSize)
     }
 
 }

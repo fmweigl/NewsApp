@@ -8,16 +8,18 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ArticlesRepository(private val dataSource: IArticlesDataSource) {
 
-    fun getArticles(keyword: String): Single<Articles> =
-        dataSource.getArticles(keyword)
-            .map { it.mapResponseToDomainModel() }
+    fun getArticles(keyword: String, page: Int, pageSize: Int): Single<Articles> =
+        dataSource.getArticles(keyword = keyword, page = page, pageSize = pageSize)
+            .map { it.mapResponseToDomainModel(keyword, page) }
             .subscribeOn(Schedulers.io())
 
-    private fun ArticlesResponse.mapResponseToDomainModel() =
+    private fun ArticlesResponse.mapResponseToDomainModel(keyword: String, page: Int) =
         Articles(
             status = status,
             totalResults = totalResults,
-            articles = articles.map { it.mapResponseToDomainModel() }
+            articles = articles.map { it.mapResponseToDomainModel() },
+            keyword = keyword,
+            page = page
         )
 
     private fun ArticleResponse.mapResponseToDomainModel() =
