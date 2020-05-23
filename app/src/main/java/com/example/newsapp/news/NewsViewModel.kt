@@ -1,18 +1,20 @@
 package com.example.newsapp.news
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.newsapp.domain.Article
 import com.example.newsapp.domain.Articles
 import com.example.newsapp.usecase.GetArticlesUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewModel(),
-    IArticleViewTypeLookup {
+    IArticleViewTypeLookup, IArticleClickListener {
 
     private val _articles = MutableLiveData<Articles>()
     val articles: LiveData<Articles> = _articles
+
+    var navigator: INewsNavigator? = null
 
     private var loading = false
 
@@ -21,6 +23,10 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
         if (text.isNotBlank()) {
             loadArticlesForKeyword(text, FIRST_PAGE)
         }
+    }
+
+    override fun onArticleClicked(article: Article) {
+        navigator?.showArticle(article.url)
     }
 
     fun onScrolledToPosition(position: Int) {
@@ -47,7 +53,7 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
             .subscribe({
                 onArticlesLoaded(it)
             }, {
-                Log.e("yyy", it.toString())
+                navigator?.showErrorSnackbar(it)
             })
     }
 

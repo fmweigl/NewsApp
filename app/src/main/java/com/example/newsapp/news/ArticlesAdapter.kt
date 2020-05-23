@@ -10,7 +10,10 @@ import com.example.newsapp.databinding.ItemArticleBigBinding
 import com.example.newsapp.databinding.ItemArticleSmallBinding
 import com.example.newsapp.domain.Article
 
-class ArticlesAdapter(private val viewTypeLookup: IArticleViewTypeLookup) :
+class ArticlesAdapter(
+    private val viewTypeLookup: IArticleViewTypeLookup,
+    private val articleClickListener: IArticleClickListener
+) :
     ListAdapter<Article, AbsArticleViewHolder>(DIFFUTIL_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbsArticleViewHolder {
@@ -22,6 +25,7 @@ class ArticlesAdapter(private val viewTypeLookup: IArticleViewTypeLookup) :
                 parent,
                 false
             ).let {
+                it.listener = articleClickListener
                 SmallArticleViewHolder(it)
             }
             VIEW_TYPE_BIG -> DataBindingUtil.inflate<ItemArticleBigBinding>(
@@ -30,6 +34,7 @@ class ArticlesAdapter(private val viewTypeLookup: IArticleViewTypeLookup) :
                 parent,
                 false
             ).let {
+                it.listener = articleClickListener
                 BigArticleViewHolder(it)
             }
 

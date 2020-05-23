@@ -26,12 +26,16 @@ class NewsViewModelTest {
     @Mock
     private lateinit var getArticlesUseCase: GetArticlesUseCase
 
+    @Mock
+    private lateinit var navigator: INewsNavigator
+
     @InjectMocks
     private lateinit var tested: NewsViewModel
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        tested.navigator = navigator
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
@@ -180,6 +184,34 @@ class NewsViewModelTest {
     }
 
     @Test
+    fun `should show error snackbar when loading articles fails`() {
+        val throwable: Throwable = mock()
+        given(
+            getArticlesUseCase.loadArticlesForKeyword(
+                any(),
+                any(),
+                any()
+            )
+        ).willReturn(Single.error(throwable))
+
+        tested.onKeywordInput("keyword")
+
+        then(navigator).should().showErrorSnackbar(throwable)
+    }
+
+    @Test
+    fun `should display article when it is clicked`() {
+        val url = "url"
+        val article: Article = mock {
+            on { this.url } doReturn url
+        }
+
+        tested.onArticleClicked(article)
+
+        then(navigator).should().showArticle(url)
+    }
+
+    @Test
     fun `should return view type 'big' for every 7th article and view type 'small' for all others`() {
         assertEquals(IArticleViewTypeLookup.VIEWTYPE_BIG, tested.viewTypeForPosition(0))
         assertEquals(IArticleViewTypeLookup.VIEWTYPE_BIG, tested.viewTypeForPosition(7))
@@ -193,4 +225,5 @@ class NewsViewModelTest {
         assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(6))
         assertEquals(IArticleViewTypeLookup.VIEWTYPE_SMALL, tested.viewTypeForPosition(8))
     }
+
 }

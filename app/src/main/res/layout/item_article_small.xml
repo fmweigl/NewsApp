@@ -8,12 +8,18 @@
             name="article"
             type="com.example.newsapp.domain.Article" />
 
+        <variable
+            name="listener"
+            type="com.example.newsapp.news.IArticleClickListener" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> listener.onArticleClicked(article)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
