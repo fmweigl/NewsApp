@@ -7,6 +7,7 @@ import com.example.newsapp.domain.Article
 import com.example.newsapp.domain.Articles
 import com.example.newsapp.usecase.GetArticlesUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 
 class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewModel(),
     IArticleClickListener {
@@ -17,6 +18,7 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
     var navigator: INewsNavigator? = null
 
     private var loading = false
+    private var disposable: Disposable? = null
 
     // TODO debounce input to avoid needless backend calls
     fun onKeywordInput(text: String) {
@@ -42,7 +44,8 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
     }
 
     private fun loadArticlesForKeyword(keyword: String, page: Int) {
-        getArticlesUseCase.loadArticlesForKeyword(
+        disposable?.dispose()
+        disposable = getArticlesUseCase.loadArticlesForKeyword(
             keyword = keyword,
             page = page,
             pageSize = PAGE_SIZE
@@ -70,6 +73,11 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
         } else {
             _articles.value = loadedArticles
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
     }
 
     companion object {
