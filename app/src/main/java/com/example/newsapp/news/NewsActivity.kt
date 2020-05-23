@@ -23,7 +23,7 @@ class NewsActivity : AppCompatActivity() {
             .also {
                 it.lifecycleOwner = this
                 it.viewModel = viewModel
-                it.rvArticles.adapter = ArticlesAdapter()
+                it.rvArticles.adapter = ArticlesAdapter(viewModel)
                 it.rvArticles.layoutManager =
                     GridLayoutManager(this, spanCount).apply {
                         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -37,6 +37,8 @@ class NewsActivity : AppCompatActivity() {
 
                         }
                     }
+
+                // TODO create decorator and remove margins from item_article_small.xml / item_article_big.xml
             }
     }
 }

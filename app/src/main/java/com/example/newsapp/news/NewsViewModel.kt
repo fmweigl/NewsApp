@@ -65,9 +65,8 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
         }
     }
 
-    override fun viewTypeForPosition(position: Int): Int {
-        return if (position % BIG_ARTICLE_INTERVAL == 0) IArticleViewTypeLookup.VIEWTYPE_BIG else IArticleViewTypeLookup.VIEWTYPE_SMALL
-    }
+    override fun viewTypeForPosition(position: Int): Int =
+        if (position % BIG_ARTICLE_INTERVAL == 0) IArticleViewTypeLookup.VIEWTYPE_BIG else IArticleViewTypeLookup.VIEWTYPE_SMALL
 
     companion object {
         const val PAGE_SIZE = 21

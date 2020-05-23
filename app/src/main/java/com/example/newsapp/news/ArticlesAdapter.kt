@@ -10,7 +10,8 @@ import com.example.newsapp.databinding.ItemArticleBigBinding
 import com.example.newsapp.databinding.ItemArticleSmallBinding
 import com.example.newsapp.domain.Article
 
-class ArticlesAdapter : ListAdapter<Article, AbsArticleViewHolder>(DIFFUTIL_CALLBACK) {
+class ArticlesAdapter(private val viewTypeLookup: IArticleViewTypeLookup) :
+    ListAdapter<Article, AbsArticleViewHolder>(DIFFUTIL_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbsArticleViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -40,9 +41,7 @@ class ArticlesAdapter : ListAdapter<Article, AbsArticleViewHolder>(DIFFUTIL_CALL
         holder.bindArticle(getItem(position))
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return VIEW_TYPE_SMALL
-    }
+    override fun getItemViewType(position: Int): Int = viewTypeLookup.viewTypeForPosition(position)
 
     companion object {
 
