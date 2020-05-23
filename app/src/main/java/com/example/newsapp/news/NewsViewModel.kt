@@ -16,6 +16,7 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
 
     private var loading = false
 
+    // TODO debounce input to avoid needless backend calls
     fun onKeywordInput(text: String) {
         if (text.isNotBlank()) {
             loadArticlesForKeyword(text, FIRST_PAGE)
