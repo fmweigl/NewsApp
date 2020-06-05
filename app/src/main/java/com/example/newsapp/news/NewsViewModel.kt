@@ -57,6 +57,7 @@ class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase) : ViewMo
                 onArticlesLoaded(it)
             }, {
                 navigator?.showErrorSnackbar(it)
+                it.printStackTrace()
             })
     }
 

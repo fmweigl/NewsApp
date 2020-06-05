@@ -2,6 +2,7 @@ package com.example.newsapp.article
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.webkit.WebViewClient
 import androidx.databinding.DataBindingUtil
