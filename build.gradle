@@ -2,7 +2,24 @@
 
 buildscript {
     ext.kotlin_version = '1.3.72'
-    // TODO define versions in here and use variables in all module build.gradle files
+    ext.appcompat_version = '1.1.0'
+    ext.core_ktx_version = '1.3.0'
+    ext.constraintlayout_version = '1.1.3'
+    ext.material_version = '1.1.0'
+    ext.recyclerview_version = '1.1.0'
+    ext.retrofit_version = '2.7.2'
+    ext.retrofit_gson_converter_version = '2.7.1'
+    ext.okhttp_loggin_interceptor_version = '4.2.1'
+    ext.rxjava3_retrofit_adapter = '3.0.0'
+    ext.koin_version = '2.0.1'
+    ext.rxjava_version = '3.0.0'
+    ext.glide_version = '4.11.0'
+    ext.junit_version = '4.12'
+    ext.mockito_kotlin_version = "2.2.0"
+    ext.androidx_testing_version = "1.1.1"
+    ext.espresso_version = '3.2.0'
+    ext.gson_version = '2.8.6'
+
     repositories {
         google()
         jcenter()
